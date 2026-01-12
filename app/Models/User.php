@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id'
     ];
 
     /**
@@ -45,5 +47,35 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected $with = ['role'];
+
+    /*
+     *  Student Statuses
+     */
+
+    const STATUS_PENDING = 1;
+    const STATUS_REJECTED = 2;
+    const STATUS_ADMITTED = 3;
+
+    public function role(): belongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return optional($this->role)->name === 'admin';
+    }
+
+    public function isGuardian(): bool
+    {
+        return optional($this->role)->name === 'guardian';
+    }
+
+    public function isStudent(): bool
+    {
+        return optional($this->role)->name === 'student';
     }
 }

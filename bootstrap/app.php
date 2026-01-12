@@ -18,6 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class
         ]);
+        $middleware->alias([
+            'admin.only' => \App\Http\Middleware\AdminOnly::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

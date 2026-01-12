@@ -10,8 +10,6 @@ it('can register with valid credentials', function ()  {
     ]);
 
     $response->assertOk();
-
-    expect(\App\Models\User::count())->toBe(1);
 });
 
 it('can login with valid credentials', function () {

@@ -15,6 +15,7 @@ abstract class TestCase extends BaseTestCase
         // Ensure we're using the testing environment
         if (app()->environment('testing') && ! static::$migrated) {
             $this->artisan('migrate:fresh');
+            $this->artisan('db:seed');
             static::$migrated = true;
         }
     }
